@@ -22,11 +22,11 @@ const CityCard: React.FC<Props> = ({ cityId, onPress }) => {
     const { isPending, data } = useCurrentWeather(cityId);
     return (
         <Card style={style.root} onPress={onPress}>
-            {isPending ? <ActivityIndicator /> :
+            {isPending || !data ? <ActivityIndicator /> :
                 <Card.Content style={style.content}>
                     <LeftContent size={20} />
                     <CenterContent cityName={data?.name} weatherDescription={data?.weather[0]?.description} />
-                    <Text variant="titleLarge">{data?.main.temp}</Text>
+                    <Text variant="titleLarge">{Math.round(data?.main.temp)}℃</Text>
                 </Card.Content>
             }
         </Card>
