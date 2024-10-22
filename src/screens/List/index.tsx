@@ -1,7 +1,9 @@
 
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
+
+import CityCard from '../../components/CityCard';
 
 import style from './style';
 
@@ -27,7 +29,7 @@ const List: React.FC<Props> = () => {
     <View style={style.root}>
       <FlashList
         data={cities}
-        renderItem={({ item }) => <Text>{item}</Text>}
+        renderItem={({ item }) => <CityCard cityId={item} onPress={() => { }} />}
         estimatedItemSize={200}
       />
     </View>
