@@ -29,8 +29,10 @@ const List: React.FC<Props> = () => {
     <View style={style.root}>
       <FlashList
         data={cities}
-        renderItem={({ item }) => <CityCard cityId={item} onPress={() => { }} />}
-        estimatedItemSize={200}
+        renderItem={({ item }) => <CityCard cityId={item} onPress={() => {
+          //TODO: navigate to Details screen
+        }} />}
+        estimatedItemSize={80}
       />
     </View>
   );
