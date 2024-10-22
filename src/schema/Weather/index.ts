@@ -3,8 +3,6 @@ type Main = {
     temp: number;
     pressure: number;
     humidity: number;
-    // temp_min: number;
-    // temp_max: number;
 }
 
 type WeatherInternal = {
@@ -15,9 +13,6 @@ type WeatherInternal = {
 }
 
 type SystemInformation = {
-    // type: number;
-    // id: number;
-    // message: number;
     country: string;
     sunrise: number;
     sunset: number;
