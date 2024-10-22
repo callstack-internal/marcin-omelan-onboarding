@@ -5,7 +5,9 @@ export default StyleSheet.create({
         flex: 1,
         borderRadius: 100,
         margin: 8,
+        height: 80,
         overflow: 'hidden',
+        justifyContent: 'center',
     },
     content: {
         flexDirection: 'row',
