@@ -12,8 +12,9 @@ const queryClient = new QueryClient();
 
 import ListSceen from './src/screens/List';
 import DetailsScreen from './src/screens/Details';
+import type { RootStackParamList } from './src/schema/Navigation/types';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App(): React.JSX.Element {
   return (

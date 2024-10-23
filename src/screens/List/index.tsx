@@ -2,13 +2,14 @@
 import React from 'react';
 import { View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
-import { useTheme } from 'react-native-paper';
+import { useTheme, ActivityIndicator } from 'react-native-paper';
+
 
 import CityCard from '../../components/CityCard';
+import { useGroupWeather } from '../../api/GroupWeather';
+import type { RootStackScreenProps } from '../../schema/Navigation/types';
 
 import style from './style';
-import { useGroupWeather } from '../../api/GroupWeather';
-import { ActivityIndicator } from 'react-native-paper';
 
 const cities = [
   703448, // Kyiv, UA
@@ -24,9 +25,9 @@ const cities = [
   5128581, // New York City, US
 ];
 
-type Props = {};
+type Props = RootStackScreenProps<'List'>;
 
-const List: React.FC<Props> = () => {
+const List: React.FC<Props> = ({ navigation }) => {
   const { isPending, data } = useGroupWeather(cities);
   const theme = useTheme();
   return (
@@ -35,7 +36,9 @@ const List: React.FC<Props> = () => {
         <FlashList
           data={data}
           renderItem={({ item }) => <CityCard name={item.name} weather={item.weather[0]} temp={item.main.temp} onPress={() => {
-            //TODO: navigate to Details screen
+            navigation.navigate('Details', {
+              cityId: item.id,
+            });
           }} />}
           estimatedItemSize={80}
         />
