@@ -24,7 +24,6 @@ export default StyleSheet.create({
         aspectRatio: 1,
         marginRight: 8,
         borderRadius: 100,
-        backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
     },

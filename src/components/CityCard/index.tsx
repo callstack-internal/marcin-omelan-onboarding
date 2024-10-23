@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Card, Text, Icon } from 'react-native-paper';
+import { Card, Text, Icon, useTheme } from 'react-native-paper';
 import style from './style';
 import mapIconsToCondition from '../../utils/mapIconsToCondition';
 import { WeatherInternal } from '../../schema/Weather';
@@ -12,9 +12,17 @@ type Props = {
     onPress: () => void;
 };
 
-const LeftContent = (props: { iconName: string }) => <View style={style.leftIcon}><Icon {...props} source={props.iconName} size={20} /></View>;
+const LeftContent = (props: { iconName: string }) => {
+    const theme = useTheme();
 
-const CenterContent = (props: { cityName: string | undefined, weatherDescription: string | undefined }) => (
+    return (
+        <View style={[style.leftIcon, { backgroundColor: theme.colors.surface }]}>
+            <Icon source={props.iconName} size={20} />
+        </View>
+    );
+};
+
+const CenterContent = (props: { cityName: string, weatherDescription: string }) => (
     <View style={style.middle}>
         <Text variant="titleMedium">{props.cityName}</Text>
         <Text variant="titleSmall">{props.weatherDescription}</Text>

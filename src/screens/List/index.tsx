@@ -2,6 +2,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
+import { useTheme } from 'react-native-paper';
 
 import CityCard from '../../components/CityCard';
 
@@ -27,9 +28,9 @@ type Props = {};
 
 const List: React.FC<Props> = () => {
   const { isPending, data } = useGroupWeather(cities);
-
+  const theme = useTheme();
   return (
-    <View style={style.root}>
+    <View style={[style.root, { backgroundColor: theme.colors.surface }]}>
       {isPending ? <ActivityIndicator /> :
         <FlashList
           data={data}
