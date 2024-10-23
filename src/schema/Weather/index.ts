@@ -38,3 +38,18 @@ export type CurrentWeather = {
     name: string,
     cod: number,
 }
+
+export type ForecastWeatherInternal = {
+    dt: number;
+    main: Main;
+    weather: WeatherInternal[];
+    clouds: { all: number } | undefined;
+    wind: { speed: number, deg: number };
+    rain: { '3h': number } | undefined;
+    snow: { '3h': number } | undefined;
+}
+
+export type ForecastWeather = {
+    cnt: number;
+    list: ForecastWeatherInternal[];
+}
