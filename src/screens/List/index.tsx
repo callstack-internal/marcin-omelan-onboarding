@@ -6,7 +6,7 @@ import { FlashList } from '@shopify/flash-list';
 import CityCard from '../../components/CityCard';
 
 import style from './style';
-import { useCurrentWeather } from '../../api/CurrentWeather';
+import { useGroupWeather } from '../../api/GroupWeather';
 import { ActivityIndicator } from 'react-native-paper';
 
 const cities = [
@@ -26,19 +26,16 @@ const cities = [
 type Props = {};
 
 const List: React.FC<Props> = () => {
-  const { isPending, data } = useCurrentWeather(cities);
+  const { isPending, data } = useGroupWeather(cities);
 
   return (
     <View style={style.root}>
       {isPending ? <ActivityIndicator /> :
         <FlashList
           data={data}
-          renderItem={({ item }) => {
-            console.log(item);
-            return <CityCard name={item.name} weather={item.weather[0]} temp={item.main.temp} onPress={() => {
-              //TODO: navigate to Details screen
-            }} />;
-          }}
+          renderItem={({ item }) => <CityCard name={item.name} weather={item.weather[0]} temp={item.main.temp} onPress={() => {
+            //TODO: navigate to Details screen
+          }} />}
           estimatedItemSize={80}
         />
       }

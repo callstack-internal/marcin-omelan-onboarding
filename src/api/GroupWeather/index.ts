@@ -2,10 +2,12 @@
 import { useQuery } from '@tanstack/react-query';
 import Config from 'react-native-config';
 import { CurrentWeather } from '../../schema/Weather';
+import assert from '../../utils/assert';
 
-export const useCurrentWeather = (cityIds: number[]) => {
+export const useGroupWeather = (cityIds: number[]) => {
+    assert(cityIds.length <= 20, 'Cannot request more than 20 locations at once');
     return useQuery<CurrentWeather[]>({
-        queryKey: ['currentWeather', cityIds], queryFn: async () => {
+        queryKey: ['groupWeather', cityIds], queryFn: async () => {
             // Limit of locations is 20 on this empty, so we need to split the request later
             const response = await fetch(
                 `https://api.openweathermap.org/data/2.5/group?id=${cityIds.join(',')}&units=metric&appid=${Config.OWM_API_KEY}`
