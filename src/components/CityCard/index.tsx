@@ -1,12 +1,14 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Card, Text, Icon, ActivityIndicator } from 'react-native-paper';
+import { Card, Text, Icon } from 'react-native-paper';
 import style from './style';
-import { useCurrentWeather } from '../../api/CurrentWeather';
 import mapIconsToCondition from '../../utils/mapIconsToCondition';
+import { WeatherInternal } from '../../schema/Weather';
 
 type Props = {
-    cityId: number;
+    name: string;
+    weather: WeatherInternal;
+    temp: number;
     onPress: () => void;
 };
 
@@ -19,17 +21,14 @@ const CenterContent = (props: { cityName: string | undefined, weatherDescription
     </View>
 );
 
-const CityCard: React.FC<Props> = ({ cityId, onPress }) => {
-    const { isPending, data } = useCurrentWeather(cityId);
+const CityCard: React.FC<Props> = ({ name, weather, temp, onPress }) => {
     return (
         <Card style={style.root} onPress={onPress}>
-            {isPending || !data ? <ActivityIndicator /> :
-                <Card.Content style={style.content}>
-                    <LeftContent iconName={mapIconsToCondition(data.weather[0].icon)} />
-                    <CenterContent cityName={data?.name} weatherDescription={data?.weather[0]?.description} />
-                    <Text variant="titleLarge">{Math.round(data?.main.temp)}℃</Text>
-                </Card.Content>
-            }
+            <Card.Content style={style.content}>
+                <LeftContent iconName={mapIconsToCondition(weather.icon)} />
+                <CenterContent cityName={name} weatherDescription={weather.description} />
+                <Text variant="titleLarge">{Math.round(temp)}℃</Text>
+            </Card.Content>
         </Card>
     );
 };
