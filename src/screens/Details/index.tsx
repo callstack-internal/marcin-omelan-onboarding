@@ -16,7 +16,7 @@ const Details: React.FC<Props> = ({ route }) => {
     const { cityId } = route.params;
     const { isPending: isCurrentDataPending, data: currentData } = useCurrentWeather(cityId);
     const { isPending: isForecastPending, data: forecastData } = useForecastWeather(cityId);
-    const { minTemp, maxTemp } = forecastData ? getMinMaxTemp(getWeatherForToday(forecastData.list)) : { minTemp: 0, maxTemp: 0 };
+    const { minTemp, maxTemp } = getMinMaxTemp(getWeatherForToday(forecastData?.list)) ?? { minTemp: 0, maxTemp: 0 };
     const theme = useTheme();
     return (
         <View style={[style.root, { backgroundColor: theme.colors.surface }]}>
