@@ -11,7 +11,7 @@ type Props = {
 const HourlyItem: React.FC<Props> = ({ weatherData }) => {
     const date = new Date(weatherData.dt * 1000);
     return (
-        <View style={style.root}>
+        <View style={style.root} testID="forecast_hourlyItem">
             <Text variant="bodySmall">{Math.round(weatherData.main.temp)}℃</Text>
             <Icon source={mapIconsToCondition(weatherData.weather[0].icon)} size={20} />
             <Text variant="bodySmall">{date.getHours()}:00</Text>
