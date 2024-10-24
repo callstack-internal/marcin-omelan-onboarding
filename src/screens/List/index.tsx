@@ -11,6 +11,7 @@ import type { RootStackScreenProps } from '../../schema/Navigation/types';
 import NativeLocation from '../../specs/NativeLocation';
 
 import style from './style';
+import useLocationPermission from '../../utils/useLocationPermission';
 
 const cities = [
   703448, // Kyiv, UA
@@ -30,21 +31,34 @@ type Props = RootStackScreenProps<'List'>;
 
 const List: React.FC<Props> = ({ navigation }) => {
   const { isPending, data } = useGroupWeather(cities);
-  const [_hasPermission, setHasPermission] = React.useState(false);
+  const { getPermission, askPermission } = useLocationPermission();
+  const [hasLocationPermission, setHasLocationPermission] = React.useState(false);
   React.useEffect(() => {
-    NativeLocation.getPermission().then((permission) => {
-      setHasPermission(permission);
-      if (!permission) {
-        NativeLocation.askPermission();
+    const requestPermission = async () => {
+      const location = await NativeLocation?.getLocation();
+      console.log('Permission granted', location);
+
+      const granted = await getPermission();
+      setHasLocationPermission(granted);
+      if (!granted) {
+        await askPermission();
       }
-    });
-  }, []);
+    };
+    requestPermission();
+  }, [getPermission, askPermission]);
+
   const theme = useTheme();
   return (
     <View style={[style.root, { backgroundColor: theme.colors.surface }]}>
       {isPending ? <ActivityIndicator /> :
         <FlashList
           data={data}
+          ListHeaderComponent={hasLocationPermission ? <CityCard name={'Current location'} weather={{
+            main: 'Clear',
+            id: 800,
+            description: 'Native location',
+            icon: '01d',
+          }} temp={22} onPress={() => { }} /> : null}
           renderItem={({ item }) => <CityCard name={item.name} weather={item.weather[0]} temp={item.main.temp} onPress={() => {
             navigation.navigate('Details', {
               cityId: item.id,
