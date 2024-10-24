@@ -1,0 +1,7 @@
+appId: com.onboarding
+---
+- launchApp
+- tapOn:
+    id: "card"
+    index: 0
+- assertVisible: "Pressure:.*"
