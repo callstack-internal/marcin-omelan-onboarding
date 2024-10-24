@@ -1,0 +1,36 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'zulu'
+        cache: gradle
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - name: Install RN dependencies
+      run: npm install
+    - name: create .env
+      run: |
+        echo "OWM_API_KEY=${{ secrets.OWM_API_KEY }}" >> .env
+    - name: run tests
+      run: npm run test
+    - name: Grant execute permission for gradlew
+      run: chmod +x ./android/gradlew
+    - name: Build with Gradle
+     # should be assembleRelease for production but it would require setting up signing keys
+      run: ./android/gradlew assembleDebug
