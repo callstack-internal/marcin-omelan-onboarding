@@ -11,7 +11,7 @@ type Props = {
 const Forecast: React.FC<Props> = ({ forecastData }) => {
     return (
         <View style={style.wrapper}>
-            <ScrollView horizontal={true} contentContainerStyle={style.content}>
+            <ScrollView horizontal={true} contentContainerStyle={style.content} testID="forecast_scrollView">
                 {forecastData.map((data) => <HourlyItem key={data.dt} weatherData={data} />)}
             </ScrollView>
         </View>
