@@ -10,6 +10,14 @@
     "test": "jest",
     "pod-install": "cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install"
   },
+  "codegenConfig": {
+     "name": "NativeLocationSpec",
+     "type": "modules",
+     "jsSrcsDir": "specs",
+     "android": {
+       "javaPackageName": "com.onboarding"
+     }
+   },
   "dependencies": {
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.11.0",
