@@ -13,7 +13,7 @@
   "codegenConfig": {
      "name": "NativeLocationSpec",
      "type": "modules",
-     "jsSrcsDir": "specs",
+     "jsSrcsDir": "src/specs",
      "android": {
        "javaPackageName": "com.onboarding"
      }

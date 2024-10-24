@@ -8,6 +8,7 @@ import { useTheme, ActivityIndicator } from 'react-native-paper';
 import CityCard from '../../components/CityCard';
 import { useGroupWeather } from '../../api/GroupWeather';
 import type { RootStackScreenProps } from '../../schema/Navigation/types';
+import NativeLocation from '../../specs/NativeLocation';
 
 import style from './style';
 
@@ -29,6 +30,15 @@ type Props = RootStackScreenProps<'List'>;
 
 const List: React.FC<Props> = ({ navigation }) => {
   const { isPending, data } = useGroupWeather(cities);
+  const [_hasPermission, setHasPermission] = React.useState(false);
+  React.useEffect(() => {
+    NativeLocation.getPermission().then((permission) => {
+      setHasPermission(permission);
+      if (!permission) {
+        NativeLocation.askPermission();
+      }
+    });
+  }, []);
   const theme = useTheme();
   return (
     <View style={[style.root, { backgroundColor: theme.colors.surface }]}>
