@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import { render, screen } from '@testing-library/react-native';
+import { render, screen, fireEvent } from '@testing-library/react-native';
 import { setupServer } from 'msw/node';
 import { handlers } from '../src/mocks/handlers';
 import App from '../App';
@@ -22,4 +22,11 @@ afterAll(() => server.close());
 it('Screen renders', async () => {
     render(<App />);
     await screen.findByText('Shuzenji');
+});
+
+it('Navigation works', async () => {
+    render(<App />);
+    const cityCard = await screen.findByText('Shuzenji');
+    fireEvent.press(cityCard);
+    await screen.findByTestId('forecast_scrollView');
 });
