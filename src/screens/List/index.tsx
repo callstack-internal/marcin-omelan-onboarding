@@ -41,14 +41,13 @@ const List: React.FC<Props> = ({ navigation }) => {
       const granted = await getPermission();
       setHasLocationPermission(granted);
       if (!granted) {
-        await askPermission();
+        setHasLocationPermission(await askPermission());
       }
     };
     requestPermission();
   }, [getPermission, askPermission]);
 
   React.useEffect(() => {
-    console.log('hasLocationPermission', hasLocationPermission);
     if (!hasLocationPermission) {
       return;
     }
@@ -59,6 +58,7 @@ const List: React.FC<Props> = ({ navigation }) => {
     };
     fetchLocation();
   }, [hasLocationPermission]);
+
   const theme = useTheme();
   return (
     <View style={[style.root, { backgroundColor: theme.colors.surface }]}>
