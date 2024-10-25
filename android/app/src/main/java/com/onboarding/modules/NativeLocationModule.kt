@@ -53,8 +53,8 @@ class NativeLocationModule(val reactContext: ReactApplicationContext) :
                     if (retryCount < 3) {
                         retryCount += 1
                         getLocation()
-                        return@getCurrentLocation
                     }
+                    return@getCurrentLocation
                 }
                 promise.resolve(Arguments.createMap().apply {
                     putDouble("longitude", location.longitude)
