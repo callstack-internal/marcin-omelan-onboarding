@@ -29,13 +29,11 @@ RCT_EXPORT_MODULE(NativeLocation)
           CLLocation *location = [locationManager location];
           CLLocationCoordinate2D coordinate = [location coordinate];
           
-          // Get latitude, longitude by string
-          NSString *latitude = [NSString stringWithFormat:@"%f", coordinate.latitude];
-          NSString *longitude = [NSString stringWithFormat:@"%f", coordinate.longitude];
-          
-          // Return an array value of latitude, longitude to JS code
-          NSArray *result = @[latitude, longitude];
-          resolve(result);
+          NSDictionary *locationData = @{
+                @"longitude": @(location.coordinate.longitude),
+                @"latitude": @(location.coordinate.latitude)
+            };
+          resolve(locationData);
       } @catch (NSException *exception) {
           reject(@"Error description", @"Can not get the current location", nil);
       };
