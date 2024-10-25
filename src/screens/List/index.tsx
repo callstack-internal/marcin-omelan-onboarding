@@ -12,6 +12,7 @@ import NativeLocation from '../../specs/NativeLocation';
 
 import style from './style';
 import useLocationPermission from '../../utils/useLocationPermission';
+import { useCurrentWeatherForLocation } from '../../api/CurrentWeather';
 
 const cities = [
   703448, // Kyiv, UA
@@ -33,11 +34,10 @@ const List: React.FC<Props> = ({ navigation }) => {
   const { isPending, data } = useGroupWeather(cities);
   const { getPermission, askPermission } = useLocationPermission();
   const [hasLocationPermission, setHasLocationPermission] = React.useState(false);
+  const [location, setLocation] = React.useState<{ longitude: number, latitude: number } | undefined>(undefined);
+  const { data: dataForCurrentLocation } = useCurrentWeatherForLocation(location);
   React.useEffect(() => {
     const requestPermission = async () => {
-      const location = await NativeLocation?.getLocation();
-      console.log('Permission granted', location);
-
       const granted = await getPermission();
       setHasLocationPermission(granted);
       if (!granted) {
@@ -47,18 +47,32 @@ const List: React.FC<Props> = ({ navigation }) => {
     requestPermission();
   }, [getPermission, askPermission]);
 
+  React.useEffect(() => {
+    console.log('hasLocationPermission', hasLocationPermission);
+    if (!hasLocationPermission) {
+      return;
+    }
+    const fetchLocation = async () => {
+      const _location = await NativeLocation?.getLocation();
+      console.log('location', _location);
+      setLocation(_location);
+    };
+    fetchLocation();
+  }, [hasLocationPermission]);
   const theme = useTheme();
   return (
     <View style={[style.root, { backgroundColor: theme.colors.surface }]}>
       {isPending ? <ActivityIndicator /> :
         <FlashList
           data={data}
-          ListHeaderComponent={hasLocationPermission ? <CityCard name={'Current location'} weather={{
-            main: 'Clear',
-            id: 800,
-            description: 'Native location',
-            icon: '01d',
-          }} temp={22} onPress={() => { }} /> : null}
+          ListHeaderComponent={dataForCurrentLocation ? <CityCard name={dataForCurrentLocation.name}
+            weather={dataForCurrentLocation.weather[0]}
+            temp={dataForCurrentLocation.main.temp}
+            onPress={() => {
+              navigation.navigate('Details', {
+                cityId: dataForCurrentLocation.id,
+              });
+            }} /> : null}
           renderItem={({ item }) => <CityCard name={item.name} weather={item.weather[0]} temp={item.main.temp} onPress={() => {
             navigation.navigate('Details', {
               cityId: item.id,
