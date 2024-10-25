@@ -7,7 +7,7 @@ const useLocationPermission = () => {
     };
     const askPermission = async () => {
         const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION);
-        return granted;
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
     };
     return { getPermission, askPermission };
 };
