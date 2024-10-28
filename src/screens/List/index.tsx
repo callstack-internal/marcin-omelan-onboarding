@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { useTheme, ActivityIndicator } from 'react-native-paper';
 
@@ -11,8 +11,6 @@ import type { RootStackScreenProps } from '@schema/Navigation/types';
 import NativeLocation from '@specs/NativeLocation';
 import useLocationPermission from '@utils/useLocationPermission';
 import { useCurrentWeatherForLocation } from '@api/CurrentWeather';
-
-import style from './style';
 
 const cities = [
   703448, // Kyiv, UA
@@ -87,3 +85,11 @@ const List: React.FC<Props> = ({ navigation }) => {
 };
 
 export default List;
+
+const style = StyleSheet.create({
+  root: {
+    flex: 1,
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
+});
