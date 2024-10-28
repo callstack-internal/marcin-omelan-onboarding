@@ -1,6 +1,13 @@
 appId: com.onboarding
 ---
 - launchApp
+- runFlow:
+    when:
+        - assertVisible:
+            id: "com.android.permissioncontroller:id/permission_allow_foreground_only_button"
+    commands:
+        - tapOn:
+            id: "com.android.permissioncontroller:id/permission_allow_foreground_only_button"
 - tapOn:
     id: "card"
     index: 0
