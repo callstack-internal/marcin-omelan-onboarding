@@ -19,6 +19,21 @@ afterEach(() => server.resetHandlers());
 // Clean up after the tests are finished.
 afterAll(() => server.close());
 
+jest.mock('react-native/Libraries/TurboModule/TurboModuleRegistry', () => {
+    const turboModuleRegistry = jest.requireActual(
+        'react-native/Libraries/TurboModule/TurboModuleRegistry',
+    );
+    return {
+        ...turboModuleRegistry,
+        getEnforcing: (name: String) => {
+            if (name === 'NativeLocation') {
+                return null;
+            }
+            return turboModuleRegistry.getEnforcing(name);
+        },
+    };
+});
+
 it('Screen renders', async () => {
     render(<App />);
     await screen.findByText('Shuzenji');

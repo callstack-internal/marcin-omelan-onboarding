@@ -1,7 +1,7 @@
 import 'react-native';
 import React from 'react';
 import { render, screen } from '@testing-library/react-native';
-import Forecast from '.';
+import Forecast from './';
 
 // Note: import explicitly to use the types shipped with jest.
 import { it } from '@jest/globals';

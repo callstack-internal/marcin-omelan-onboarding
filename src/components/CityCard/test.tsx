@@ -1,7 +1,7 @@
 import 'react-native';
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react-native';
-import CityCard from '.';
+import CityCard from './';
 
 // Note: import explicitly to use the types shipped with jest.
 import { it } from '@jest/globals';
