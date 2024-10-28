@@ -64,7 +64,7 @@ class NativeLocationModule(val reactContext: ReactApplicationContext) :
         }
         getLocation()
     }
-    
+
     override fun getPermission(): Boolean {
         return ActivityCompat.checkSelfPermission(
             reactContext,
