@@ -14,3 +14,15 @@ export const useCurrentWeather = (cityId: number) => {
         },
     });
 };
+
+export const useCurrentWeatherForLocation = (location: { longitude: number, latitude: number } | undefined) => {
+    return useQuery<CurrentWeather>({
+        queryKey: ['currentWeather', location], queryFn: async () => {
+            const response = await fetch(
+                `${apiUrl}/weather?lat=${location?.latitude}&lon=${location?.longitude}&units=metric&appid=${Config.OWM_API_KEY}`
+            );
+            return response.json();
+        },
+        enabled: !!location && location.latitude !== 0 && location.longitude !== 0,
+    });
+};
