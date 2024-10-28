@@ -1,6 +1,11 @@
 appId: com.onboarding
 ---
 - launchApp
+- runFlow:
+    when:
+      visible: "Allow While Using App"
+    commands:
+        - tapOn: "Allow While Using App"
 - tapOn:
     id: "card"
     index: 0
