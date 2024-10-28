@@ -33,4 +33,6 @@ jobs:
       run: chmod +x ./android/gradlew
     - name: Build with Gradle
      # should be assembleRelease for production but it would require setting up signing keys
-      run: ./android/gradlew assembleDebug
+      run: |
+        cd android
+        ./gradlew assembleDebug
