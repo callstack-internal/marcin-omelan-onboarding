@@ -33,10 +33,10 @@ class NativeLocationModule(val reactContext: ReactApplicationContext) :
         } else locationManager.allProviders.first()
         if (ActivityCompat.checkSelfPermission(
                 reactContext,
-                permission.ACCESS_FINE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 reactContext,
-                permission.ACCESS_COARSE_LOCATION
+                Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             return
@@ -63,6 +63,16 @@ class NativeLocationModule(val reactContext: ReactApplicationContext) :
             }
         }
         getLocation()
+    }
+    
+    override fun getPermission(): Boolean {
+        return ActivityCompat.checkSelfPermission(
+            reactContext,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            reactContext,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ) != PackageManager.PERMISSION_GRANTED
     }
 }
 

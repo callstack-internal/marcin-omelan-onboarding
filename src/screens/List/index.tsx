@@ -31,41 +31,30 @@ const cities = [
 type Props = RootStackScreenProps<'List'>;
 
 const List: React.FC<Props> = ({ navigation }) => {
+  const theme = useTheme();
   const { isPending, data } = useGroupWeather(cities);
   const { getPermission, askPermission } = useLocationPermission();
-  const [hasLocationPermission, setHasLocationPermission] = React.useState(false);
   const [location, setLocation] = React.useState<{ longitude: number, latitude: number } | undefined>(undefined);
   const { data: dataForCurrentLocation } = useCurrentWeatherForLocation(location);
+
   React.useEffect(() => {
     const requestPermission = async () => {
-      const granted = await getPermission();
-      setHasLocationPermission(granted);
-      if (!granted) {
-        setHasLocationPermission(await askPermission());
+      const alreadyGranted = await getPermission();
+      const granted = alreadyGranted || await askPermission();
+      if (granted) {
+        const _location = await NativeLocation?.getLocation();
+        setLocation(_location);
       }
     };
     requestPermission();
   }, [getPermission, askPermission]);
 
-  React.useEffect(() => {
-    if (!hasLocationPermission) {
-      return;
-    }
-    const fetchLocation = async () => {
-      const _location = await NativeLocation?.getLocation();
-      console.log('location', _location);
-      setLocation(_location);
-    };
-    fetchLocation();
-  }, [hasLocationPermission]);
-
-  const theme = useTheme();
   return (
     <View style={[style.root, { backgroundColor: theme.colors.surface }]}>
       {isPending ? <ActivityIndicator /> :
         <FlashList
           data={data}
-          ListHeaderComponent={dataForCurrentLocation ? <CityCard name={dataForCurrentLocation.name}
+          ListHeaderComponent={dataForCurrentLocation ? <CityCard name={`📍${dataForCurrentLocation.name}`}
             weather={dataForCurrentLocation.weather[0]}
             temp={dataForCurrentLocation.main.temp}
             onPress={() => {
