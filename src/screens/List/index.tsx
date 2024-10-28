@@ -32,10 +32,10 @@ type Props = RootStackScreenProps<'List'>;
 
 const List: React.FC<Props> = ({ navigation }) => {
   const theme = useTheme();
-  const { isPending, data } = useGroupWeather(cities);
   const { getPermission, askPermission } = useLocationPermission();
   const [location, setLocation] = React.useState<{ longitude: number, latitude: number } | undefined>(undefined);
-  const { data: dataForCurrentLocation } = useCurrentWeatherForLocation(location);
+  const { isLoading: dataForCurrentLocationIsLoading, data: dataForCurrentLocation } = useCurrentWeatherForLocation(location);
+  const { isPending, data } = useGroupWeather(cities);
 
   React.useEffect(() => {
     const requestPermission = async () => {
@@ -47,21 +47,33 @@ const List: React.FC<Props> = ({ navigation }) => {
       }
     };
     requestPermission();
-  }, [getPermission, askPermission]);
+    // run only once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const currentLocationHeader = (() => {
+    if (dataForCurrentLocation) {
+      return <CityCard name={`📍${dataForCurrentLocation.name}`}
+        weather={dataForCurrentLocation.weather[0]}
+        temp={dataForCurrentLocation.main.temp}
+        onPress={() => {
+          navigation.navigate('Details', {
+            cityId: dataForCurrentLocation.id,
+          });
+        }} />;
+    }
+    if (dataForCurrentLocationIsLoading) {
+      return <ActivityIndicator />;
+    }
+    return null;
+  })();
 
   return (
     <View style={[style.root, { backgroundColor: theme.colors.surface }]}>
       {isPending ? <ActivityIndicator /> :
         <FlashList
           data={data}
-          ListHeaderComponent={dataForCurrentLocation ? <CityCard name={`📍${dataForCurrentLocation.name}`}
-            weather={dataForCurrentLocation.weather[0]}
-            temp={dataForCurrentLocation.main.temp}
-            onPress={() => {
-              navigation.navigate('Details', {
-                cityId: dataForCurrentLocation.id,
-              });
-            }} /> : null}
+          ListHeaderComponent={currentLocationHeader}
           renderItem={({ item }) => <CityCard name={item.name} weather={item.weather[0]} temp={item.main.temp} onPress={() => {
             navigation.navigate('Details', {
               cityId: item.id,

@@ -23,6 +23,6 @@ export const useCurrentWeatherForLocation = (location: { longitude: number, lati
             );
             return response.json();
         },
-        enabled: !!location,
+        enabled: !!location && location.latitude !== 0 && location.longitude !== 0,
     });
 };
