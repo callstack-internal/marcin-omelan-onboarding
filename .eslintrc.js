@@ -8,4 +8,9 @@ module.exports = {
       extends: ['plugin:testing-library/react'],
     },
   ],
+  settings: {
+   'import/resolver': {
+      'babel-module': {},
+    },
+  },
 };

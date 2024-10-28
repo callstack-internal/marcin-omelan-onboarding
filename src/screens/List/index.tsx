@@ -5,14 +5,14 @@ import { FlashList } from '@shopify/flash-list';
 import { useTheme, ActivityIndicator } from 'react-native-paper';
 
 
-import CityCard from '../../components/CityCard';
-import { useGroupWeather } from '../../api/GroupWeather';
-import type { RootStackScreenProps } from '../../schema/Navigation/types';
-import NativeLocation from '../../specs/NativeLocation';
+import CityCard from '@components/CityCard';
+import { useGroupWeather } from '@api/GroupWeather';
+import type { RootStackScreenProps } from '@schema/Navigation/types';
+import NativeLocation from '@specs/NativeLocation';
+import useLocationPermission from '@utils/useLocationPermission';
+import { useCurrentWeatherForLocation } from '@api/CurrentWeather';
 
 import style from './style';
-import useLocationPermission from '../../utils/useLocationPermission';
-import { useCurrentWeatherForLocation } from '../../api/CurrentWeather';
 
 const cities = [
   703448, // Kyiv, UA

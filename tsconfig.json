@@ -1,6 +1,30 @@
 {
   "extends": "@tsconfig/react-native/tsconfig.json",
   "compilerOptions": {
-      "moduleSuffixes": [".android", ".ios", ""]
+    "moduleSuffixes": [
+      ".android",
+      ".ios",
+      ""
+    ],
+    "paths": {
+      "@api/*": [
+        "./src/api/*"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@schema/*": [
+        "./src/schema/*"
+      ],
+      "@screens/*": [
+        "./src/screens/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
+      "@specs/*": [
+        "./src/specs/*"
+      ],
+    }
   }
 }

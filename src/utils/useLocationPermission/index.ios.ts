@@ -1,4 +1,4 @@
-import NativeLocation from '../../specs/NativeLocation';
+import NativeLocation from '@specs/NativeLocation';
 
 const useLocationPermission = () => {
     const getPermission = async (): Promise<boolean> => {

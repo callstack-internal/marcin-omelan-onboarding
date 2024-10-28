@@ -3,12 +3,12 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useTheme, Text, ActivityIndicator } from 'react-native-paper';
 
-import type { RootStackScreenProps } from '../../schema/Navigation/types';
-import { useCurrentWeather } from '../../api/CurrentWeather';
-import { useForecastWeather } from '../../api/ForecastWeather';
-import getMinMaxTemp from '../../utils/getMinMaxTemp';
-import getWeatherForToday from '../../utils/getWeatherForToday';
-import Forecast from '../../components/Forecast';
+import type { RootStackScreenProps } from '@schema/Navigation/types';
+import { useCurrentWeather } from '@api/CurrentWeather';
+import { useForecastWeather } from '@api/ForecastWeather';
+import getMinMaxTemp from '@utils/getMinMaxTemp';
+import getWeatherForToday from '@utils/getWeatherForToday';
+import Forecast from '@components/Forecast';
 
 type Props = RootStackScreenProps<'Details'>;
 

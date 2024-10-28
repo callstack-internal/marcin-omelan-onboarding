@@ -1,4 +1,4 @@
-import { OWMIcons } from '../../schema/Weather';
+import { OWMIcons } from '@schema/Weather';
 
 const iconsToVector: {
     [K in OWMIcons]: string;

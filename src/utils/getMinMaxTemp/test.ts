@@ -1,5 +1,5 @@
 import getMinMaxTemp from './';
-import { ForecastWeatherInternal } from '../../schema/Weather';
+import { ForecastWeatherInternal } from '@schema/Weather';
 
 test('getMinMaxTemp', () => {
     const data: ForecastWeatherInternal[] = [

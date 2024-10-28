@@ -1,7 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Card, Text, Icon, useTheme } from 'react-native-paper';
-import style from './style';
 import mapIconsToCondition from '../../utils/mapIconsToCondition';
 import { WeatherInternal } from '../../schema/Weather';
 
@@ -42,3 +41,33 @@ const CityCard: React.FC<Props> = ({ name, weather, temp, onPress }) => {
 };
 
 export default CityCard;
+
+
+const style = StyleSheet.create({
+    root: {
+        flex: 1,
+        borderRadius: 100,
+        margin: 8,
+        height: 80,
+        overflow: 'hidden',
+        justifyContent: 'center',
+    },
+    content: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignContent: 'center',
+        alignItems: 'center',
+    },
+    middle: {
+        flexDirection: 'column',
+        flex: 1,
+    },
+    leftIcon: {
+        width: 40,
+        aspectRatio: 1,
+        marginRight: 8,
+        borderRadius: 100,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});

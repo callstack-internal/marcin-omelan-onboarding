@@ -1,4 +1,4 @@
-import { ForecastWeatherInternal } from '../../schema/Weather';
+import { ForecastWeatherInternal } from '@schema/Weather';
 
 export default function getWeatherForToday(data: ForecastWeatherInternal[] | undefined): ForecastWeatherInternal[] {
     if (!data) {

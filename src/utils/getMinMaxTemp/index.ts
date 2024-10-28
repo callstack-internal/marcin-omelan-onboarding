@@ -1,4 +1,4 @@
-import { ForecastWeatherInternal } from '../../schema/Weather';
+import { ForecastWeatherInternal } from '@schema/Weather';
 
 export default function getMinMaxTemp(data: ForecastWeatherInternal[]): { minTemp: number, maxTemp: number } | undefined {
     if (data.length === 0) {
