@@ -2,7 +2,7 @@
 
 if ! [ -x "$(command -v maestro)" ]; then
     echo 'Error: maestro is not installed.' >&2
-    read -p -r "Do you want to install maestro? (y/n)?" answer
+    read -p "Do you want to install maestro? (y/n)?" answer
     case ${answer} in
     y | Y)
         if ! [ -x "$(command -v brew)" ]; then
@@ -21,7 +21,7 @@ echo '✅ maestro is installed.'
 
 if ! [ -x "$(command -v flashlight)" ]; then
     echo 'Error: flashlight is not installed.' >&2
-    read -p -r "Do you want to install flashlight? (y/n)?" answer
+    read -p "Do you want to install flashlight? (y/n)?" answer
     case ${answer} in
     y | Y)
         curl https://get.flashlight.dev | bash
