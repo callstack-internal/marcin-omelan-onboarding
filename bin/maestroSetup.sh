@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if ! [ -x "$(command -v maestro)" ]; then
     echo 'Error: maestro is not installed.' >&2
