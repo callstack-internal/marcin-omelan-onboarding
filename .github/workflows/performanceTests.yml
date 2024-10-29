@@ -36,7 +36,7 @@ jobs:
       run: chmod +x ./android/gradlew
 
     - name: setup maestro and flashlight
-      run: ./bin/maestroSetup.sh
+      run: yes | ./bin/maestroSetup.sh
 
     - name: Enable KVM group perms
       run: |
