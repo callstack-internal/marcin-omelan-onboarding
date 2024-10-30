@@ -6,10 +6,10 @@ if ! [ -x "$(command -v maestro)" ]; then
     case ${answer} in
     y | Y)
         if ! [ -x "$(command -v brew)" ]; then
+            curl -fsSL "https://get.maestro.mobile.dev" | bash
+        else
             brew tap mobile-dev-inc/tap
             brew install maestro
-        else
-            curl -fsSL "https://get.maestro.mobile.dev" | bash
         fi
         ;;
     *)
