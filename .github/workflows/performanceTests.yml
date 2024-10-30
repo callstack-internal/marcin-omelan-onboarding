@@ -55,11 +55,16 @@ jobs:
         arch: x86_64
         profile: Nexus 6
         script: ./bin/flashlightCI.sh
+
+
+    - name: Set sanitized variable
+      id: sanitize
+      run: echo "sanitized_name=$(echo '${{ github.head_ref || github.ref_name }}-${{ matrix.api-level }}-${{ matrix.target }}' | tr -cd '[:alnum:]-_')" >> $GITHUB_ENV
     - uses: actions/upload-artifact@v4
       with:
-        name: results-${{ github.head_ref || github.ref_name }}-${{ matrix.api-level }}-${{ matrix.target }}
+        name: results-${{ env.sanitized_name }}
         path: results.json
     - uses: actions/upload-artifact@v4
       with:
-        name: test-app-${{ github.head_ref || github.ref_name }}-${{ matrix.api-level }}-${{ matrix.target }}
+        name: test-app-${{ env.sanitized_name }}
         path: android/app/build/outputs/apk/release/app-release.apk
