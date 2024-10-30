@@ -57,5 +57,5 @@ jobs:
         script: ./bin/flashlightCI.sh
     - uses: actions/upload-artifact@v4
       with:
-        name: results-${{ github.event.repository.updated_at}}-${{ matrix.api-level }}-${{ matrix.target }}
+        name: results-${{ github.head_ref || github.ref_name }}-${{ matrix.api-level }}-${{ matrix.target }}
         path: results.json
