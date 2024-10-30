@@ -38,7 +38,8 @@ jobs:
     - name: setup maestro and flashlight
       run: | 
         yes | ./bin/maestroSetup.sh
-        source /home/runner/.bashrc
+        export PATH="$HOME/.maestro/bin/:$PATH"
+        echo "export PATH=\$HOME/.flashlight/bin/:$PATH" >> $GITHUB_ENV
 
     - name: Enable KVM group perms
       run: |
