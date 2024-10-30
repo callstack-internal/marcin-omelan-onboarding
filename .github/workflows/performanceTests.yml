@@ -43,7 +43,7 @@ jobs:
         echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
         sudo udevadm control --reload-rules
         sudo udevadm trigger --name-match=kvm
-  
+
     - name: run maestro tests
       uses: reactivecircus/android-emulator-runner@v2
       with:
@@ -51,15 +51,8 @@ jobs:
         target: ${{ matrix.target }}
         arch: x86_64
         profile: Nexus 6
-        script: |
-          cd android
-          ./gradlew installRelease
-          cd ..
-          flashlight test --bundleId com.onboarding \
-            --testCommand "maestro test __tests__/maestro/NavigationAndroid.yaml" \
-            --duration 10000 \
-            --resultsFilePath results.json
+        script: npm run performance-test
     - uses: actions/upload-artifact@v4
       with:
-        name: results-${{ github.event.repository.updated_at}}
+        name: results-${{ github.event.repository.updated_at}}-${{ matrix.api-level }}-${{ matrix.target }}
         path: results.json

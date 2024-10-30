@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "pod-install": "cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install"
+    "pod-install": "cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install",
+    "performance-test": "cd android && ./gradlew installRelease && cd .. && flashlight test --bundleId com.onboarding  --testCommand 'maestro test __tests__/maestro/NavigationAndroid.yaml' --duration 10000 --resultsFilePath results.json"
   },
   "codegenConfig": {
     "name": "NativeLocationSpec",
