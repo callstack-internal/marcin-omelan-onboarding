@@ -1,0 +1,70 @@
+name: Android Performance
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        api-level: [29, 32, 35]
+        target: [default, google_apis]
+    steps:
+    - uses: actions/checkout@v4
+    - name: set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'zulu'
+        cache: gradle
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - name: Install RN dependencies
+      run: npm install
+    - name: create .env
+      run: |
+        echo "OWM_API_KEY=${{ secrets.OWM_API_KEY }}" >> .env
+    - name: run tests
+      run: npm run test
+    - name: Grant execute permission for gradlew
+      run: chmod +x ./android/gradlew
+
+    - name: setup maestro and flashlight
+      run: | 
+        yes | ./bin/maestroSetup.sh
+        export PATH="$HOME/.maestro/bin/:$PATH"
+        echo "export PATH=\$HOME/.flashlight/bin/:$PATH" >> $GITHUB_ENV
+
+    - name: Enable KVM group perms
+      run: |
+        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+        sudo udevadm control --reload-rules
+        sudo udevadm trigger --name-match=kvm
+
+    - name: run maestro tests
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: ${{ matrix.api-level }}
+        target: ${{ matrix.target }}
+        arch: x86_64
+        profile: Nexus 6
+        script: ./bin/flashlightCI.sh
+
+
+    - name: Set sanitized variable
+      id: sanitize
+      run: echo "sanitized_name=$(echo '${{ github.head_ref || github.ref_name }}-${{ matrix.api-level }}-${{ matrix.target }}' | tr -cd '[:alnum:]-_')" >> $GITHUB_ENV
+    - uses: actions/upload-artifact@v4
+      with:
+        name: results-${{ env.sanitized_name }}
+        path: results.json
+    - uses: actions/upload-artifact@v4
+      with:
+        name: test-app-${{ env.sanitized_name }}
+        path: android/app/build/outputs/apk/release/app-release.apk
