@@ -38,8 +38,8 @@ jobs:
     - name: setup maestro and flashlight
       run: | 
         yes | ./bin/maestroSetup.sh
-        export PATH="$HOME/.maestro/bin/:$PATH"
-        echo "export PATH=\$HOME/.flashlight/bin/:$PATH" >> $GITHUB_ENV
+        echo "$HOME/.flashlight/bin/" >> $GITHUB_PATH
+        echo "$HOME/.maestro/bin/" >> $GITHUB_PATH
 
     - name: Enable KVM group perms
       run: |
@@ -54,8 +54,7 @@ jobs:
         target: ${{ matrix.target }}
         arch: x86_64
         profile: Nexus 6
-        script: ./bin/flashlightCI.sh
-
+        script: npm run performance-test
 
     - name: Set sanitized variable
       id: sanitize
@@ -63,8 +62,7 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: results-${{ env.sanitized_name }}
-        path: results.json
-    - uses: actions/upload-artifact@v4
-      with:
-        name: test-app-${{ env.sanitized_name }}
-        path: android/app/build/outputs/apk/release/app-release.apk
+        path: |
+          results.json
+           ~/.maestro/tests/**/*
+          android/app/build/outputs/apk/release/app-release.apk
